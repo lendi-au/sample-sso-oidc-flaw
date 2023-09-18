@@ -1,0 +1,21 @@
+{
+  "name": "sample-sso-flaw",
+  "version": "1.0.0",
+  "main": "sample.ts",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@aws-sdk/client-sso": "^3.414.0",
+    "@aws-sdk/client-sso-oidc": "^3.414.0",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.6.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "token-gen": "ts-node sample-token-gen.ts",
+    "creds-gen": "ts-node sample-aws-creds-gen.ts"
+  }
+}
