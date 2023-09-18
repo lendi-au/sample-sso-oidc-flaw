@@ -1,3 +1,4 @@
+import { ListAccountRolesCommand, ListAccountsCommand, SSOClient } from '@aws-sdk/client-sso';
 import {
   SSOOIDCClient,
   StartDeviceAuthorizationCommand,
@@ -53,6 +54,17 @@ const rcc = new RegisterClientCommand({
         expires: formatISO(addSeconds(new Date(), expiresIn as number)),
       };
       writeFileSync(`token.json`, JSON.stringify(tokenData), 'utf-8');
+
+      // you can also list accounts for a user!
+      const accounts = new ListAccountsCommand({accessToken});
+      const sso = new SSOClient({ region });
+      const accountList = await sso.send(accounts);
+      console.log(accountList.accountList)
+
+      // take first account and list the roles in it as an example...
+      const roles = new ListAccountRolesCommand({accessToken, accountId: accountList.accountList?.[0].accountId})
+      const roleList = await sso.send(roles);
+      console.log(roleList.roleList);
       return true;
     } catch (error: any) {
       if (error.error === 'authorization_pending') {
